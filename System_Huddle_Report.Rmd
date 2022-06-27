@@ -670,9 +670,9 @@ site_cols <- c("#212070","#d80b8c","#00aeef","#7f7f7f","#ffc000","#7030a0","#c7c
 
 # Import in exclusion criteria 
 ## Exclude ECHO encounters
-missing_exc_dept <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Department")
-missing_exc_resource <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Resource")
-missing_exc_visitType <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Visit Type")
+missing_exc_dept <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion_dept.xlsx")
+missing_exc_resource <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion_res.xlsx")
+missing_exc_visitType <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion_visit.xlsx")
 
 # missing_exc_dept <- read_excel(file.choose(), sheet = "Department")
 # missing_exc_resource <- read_excel(file.choose(), sheet = "Resource")
