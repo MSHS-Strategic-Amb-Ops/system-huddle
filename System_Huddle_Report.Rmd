@@ -288,9 +288,9 @@ scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/
 # scheduling_data_test <- scheduling_data_raw %>% filter(Appt.Year == "2022")
 # saveRDS(scheduling_data_test, "historical_data_test.rds")
 
-hh_data_comp_raw <-  as.data.frame(read_csv("hh_comp.csv"))
+hh_data_comp_raw <-  as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_comp.csv"))
 # hh_data_msd_raw <-  as.data.frame(read_csv("hh_msd.csv"))
-hh_crosswalk <- as.data.frame(read_csv("hh_crosswalk.csv"))
+hh_crosswalk <- as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_crosswalk.csv"))
 
 date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
@@ -299,21 +299,21 @@ date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 
 ```{r Process Corrected Epic Departments, echo = FALSE, warning = FALSE, message = FALSE}
 
-epic_dept_corrected <- read_csv("Epic Department Mapping Correction.csv")
-
-scheduling_data_raw <- merge(scheduling_data_raw, epic_dept_corrected[,c("Campus","Campus.Specialty","Department","Campus Corrected")])
-scheduling_data_raw <- scheduling_data_raw %>%
-  mutate(Campus = ifelse(is.na(`Campus Corrected`) | `Campus Corrected` == "DEACTIVATE", Campus, `Campus Corrected`)) %>%
-  dplyr::select(-`Campus Corrected`)
+# epic_dept_corrected <- read_csv("Epic Department Mapping Correction.csv")
+# 
+# scheduling_data_raw <- merge(scheduling_data_raw, epic_dept_corrected[,c("Campus","Campus.Specialty","Department","Campus Corrected")])
+# scheduling_data_raw <- scheduling_data_raw %>%
+#   mutate(Campus = ifelse(is.na(`Campus Corrected`) | `Campus Corrected` == "DEACTIVATE", Campus, `Campus Corrected`)) %>%
+#   dplyr::select(-`Campus Corrected`)
 
 ```
 
 
 ```{r Radiology and Rad Onc Data, echo = FALSE, warning = FALSE, message = FALSE}
 
-rad_onc_data_raw <- as.data.frame(read.csv("Rad_Onc_Data.csv"))
-radiology_data_raw <- as.data.frame(read.csv("Radiology_Data.csv"))
-radiology_ref <- as.data.frame(read.csv("Radiology_Site_Mapping.csv"))
+rad_onc_data_raw <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Rad_Onc_Data.csv"))
+radiology_data_raw <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Radiology_Data.csv"))
+radiology_ref <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Radiology_Site_Mapping.csv"))
 
 # Process Radiology + Rad Onc Data
 rad_onc_data_raw <- rad_onc_data_raw %>%
@@ -670,9 +670,9 @@ site_cols <- c("#212070","#d80b8c","#00aeef","#7f7f7f","#ffc000","#7030a0","#c7c
 
 # Import in exclusion criteria 
 ## Exclude ECHO encounters
-missing_exc_dept <- read_excel("open_encounters_exclusion.xlsx", sheet = "Department")
-missing_exc_resource <- read_excel("open_encounters_exclusion.xlsx", sheet = "Resource")
-missing_exc_visitType <- read_excel("open_encounters_exclusion.xlsx", sheet = "Visit Type")
+missing_exc_dept <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Department")
+missing_exc_resource <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Resource")
+missing_exc_visitType <- read_excel("/nfs/data/Applications/Ambulatory/open_encounters_exclusion.xlsx", sheet = "Visit Type")
 
 # missing_exc_dept <- read_excel(file.choose(), sheet = "Department")
 # missing_exc_resource <- read_excel(file.choose(), sheet = "Resource")
@@ -1313,7 +1313,12 @@ network <- data.frame(site = "NETWORK",
                       total_obs = 0,
                       total_comp = 0)
 
-hh_site <- bind_rows(hh_site, network)
+msw <- data.frame(site = "MSW",
+                      Month = "2022-05",
+                      total_obs = 0,
+                      total_comp = 0)
+
+hh_site <- bind_rows(hh_site, network, msw)
 hh_site <- hh_site %>%
   arrange(site, Month)
 
@@ -3605,6 +3610,8 @@ primary_care_sites <- as.vector(unique((time_to_appt_all %>% filter(Appt.Year ==
 hh_sites <- as.vector(hh_sites)
 
 rm(scheduling_data)
+gc()
+
 # i <- "MSUS"
 
 for (i in sites) {
