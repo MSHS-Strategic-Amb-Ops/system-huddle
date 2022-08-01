@@ -3610,7 +3610,7 @@ primary_care_sites <- as.vector(unique((time_to_appt_all %>% filter(Appt.Year ==
 hh_sites <- as.vector(hh_sites)
 
 rm(scheduling_data)
-gc()
+invisible(gc())
 
 # i <- "MSUS"
 
@@ -3779,11 +3779,14 @@ missing_exc_resource %>%
 ### Epic Department Mapping {.tabset .tabset-fade .tabset-pills}
 ```{r Epic Department Mapping Output, echo = FALSE, warning = FALSE, message = FALSE, results="asis"}
 
+invisible(gc())
+
 epic_sites <- as.vector(unique(epic_depts$Campus))
 
 for (i in epic_sites) {
   cat(" \n####", i,"\n")
   print(epic_depts_site(site = i))
+  invisible(gc())
 }
 
 
