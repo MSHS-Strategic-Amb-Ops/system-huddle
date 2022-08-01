@@ -887,6 +887,8 @@ highchart() %>%
 #   hc_tooltip(shared = TRUE, borderColor = "black")
 # }) %>% 
 #   hw_grid(ncol = 2, rowheight = 450) %>% htmltools::browsable()
+
+gc()
 ```
 
 
