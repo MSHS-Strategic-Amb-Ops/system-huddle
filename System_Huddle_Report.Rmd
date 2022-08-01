@@ -1949,14 +1949,14 @@ current_last_new_mshs_all %>%
 
 ### 4. MSHS Operational Metrics - No Shows
 ```{r MSHS Operational Metrics, echo = FALSE, warning = FALSE, message = FALSE}
-no_show_rate <- scheduling_data %>%
-  filter(Appt.Year %in% unique(past_4_wks$Appt.Year)) %>%
-  filter(Appt.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
-  filter(Appt.Status %in% c("Arrived","No Show")) %>%
-  arrange(Appt.Year, Appt.WeekNum) %>%
-  group_by(Campus, Campus.Specialty, Department, Appt.Year, Appt.WeekNum, Visit.Method, Appt.Status) %>%
-  summarise(weekly_vol = n()) %>%
-  mutate(Appt.WeekNum = as.numeric(Appt.WeekNum))
+# no_show_rate <- scheduling_data %>%
+#   filter(Appt.Year %in% unique(past_4_wks$Appt.Year)) %>%
+#   filter(Appt.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
+#   filter(Appt.Status %in% c("Arrived","No Show")) %>%
+#   arrange(Appt.Year, Appt.WeekNum) %>%
+#   group_by(Campus, Campus.Specialty, Department, Appt.Year, Appt.WeekNum, Visit.Method, Appt.Status) %>%
+#   summarise(weekly_vol = n()) %>%
+#   mutate(Appt.WeekNum = as.numeric(Appt.WeekNum))
 
 # # No Shows ----------------------------------------------------------------------------------------
 # current_last_noShow_mshs <- no_show_rate %>%
