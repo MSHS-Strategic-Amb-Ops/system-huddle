@@ -294,7 +294,7 @@ hh_crosswalk <- as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_cro
 
 
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
-date_start <- as.Date(paste0(format(as.Date(date_end), "%Y-%m"),"-01"), format="%Y-%m-%d")
+date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
 
 ```
 
