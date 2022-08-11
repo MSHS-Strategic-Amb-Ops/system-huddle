@@ -317,6 +317,11 @@ rad_onc_data_raw <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Ra
 radiology_data_raw <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Radiology_Data.csv"))
 radiology_ref <- as.data.frame(read.csv("/nfs/data/Applications/Ambulatory/Radiology_Site_Mapping.csv"))
 
+# rad_onc_data_raw <- as.data.frame(read.csv(file.choose()))
+# radiology_data_raw <- as.data.frame(read.csv(file.choose()))
+# radiology_ref <- as.data.frame(read.csv(file.choose()))
+
+
 # Process Radiology + Rad Onc Data
 rad_onc_data_raw <- rad_onc_data_raw %>%
   mutate_at(c('MSBI', 'MSH.MSDFP', 'MSUS', 'MSW'), as.numeric) %>%
@@ -1045,12 +1050,12 @@ highchart() %>%
 new_vol_trending <- scheduling_data %>%
   filter(Appt.Status == "Arrived") %>%
   filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
-  mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
+  # mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
   group_by(Campus, Appt.MonthYear, New.PT2) %>%
   summarise(total = n()) %>%
   pivot_wider(names_from = New.PT2,
               values_from = total) %>%
-  mutate(total_vol = `TRUE` + `FALSE`,
+  mutate(total_vol = New + Established,
          new_perc = round((`TRUE`/(total_vol))*100,0))
 
 map(unique(new_vol_trending$Campus), function(x){
@@ -1097,12 +1102,12 @@ new_vol_trending_downtown <- scheduling_data %>%
   filter(Campus %in% c("MSUS","MSDD","MSBI")) %>%
   mutate(Campus = "MS Downtown") %>%
   filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
-  mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
+  # mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
   group_by(Campus, Appt.MonthYear, New.PT2) %>%
   summarise(total = n()) %>%
   pivot_wider(names_from = New.PT2,
               values_from = total) %>%
-  mutate(total_vol = `TRUE` + `FALSE`,
+  mutate(total_vol = New + Established
          new_perc = round((`TRUE`/(total_vol))*100,0))
 
 map(unique(new_vol_trending_downtown$Campus), function(x){
