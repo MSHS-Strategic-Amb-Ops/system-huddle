@@ -1871,12 +1871,12 @@ current_last_new_mshs <- merge(current_last_new_mshs, weekNum_sunday[,c("Appt.Ye
 
 current_last_new_mshs_total <- current_last_new_mshs %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -1887,12 +1887,12 @@ current_last_new_mshs_total <- current_last_new_mshs %>%
 current_last_new_mshs_person <- current_last_new_mshs %>%
   filter(Visit.Method == "IN PERSON") %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -1903,12 +1903,12 @@ current_last_new_mshs_person <- current_last_new_mshs %>%
 current_last_new_mshs_tele <- current_last_new_mshs %>%
   filter(Visit.Method == "TELEHEALTH") %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -2676,11 +2676,11 @@ current_last_wait_site_all_ptType <- time_to_appt_all %>%
     filter(Campus == site) %>%
     filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
     filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
-    group_by(Appt.Year, Appt.WeekNum, New.PT3) %>%
+    group_by(Appt.Year, Appt.WeekNum, New.PT2) %>%
     summarise(days = median(round(Wait.Time))) %>%
     arrange(Appt.WeekNum) %>%
     pivot_wider(
-      names_from = New.PT3,
+      names_from = New.PT2,
       values_from = days
     )
 
@@ -2693,7 +2693,7 @@ current_last_wait_site_all <- merge(current_last_wait_site_all_all, current_last
 current_last_wait_site_all <- current_last_wait_site_all %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_site_all$Visit.Method <- "Total"
@@ -2712,11 +2712,11 @@ current_last_wait_site_inPerson_ptType <- time_to_appt_all %>%
     filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
     filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   filter(Visit.Method == "IN PERSON") %>%
-  group_by(Appt.Year, Appt.WeekNum, New.PT3) %>%
+  group_by(Appt.Year, Appt.WeekNum, New.PT2) %>%
   summarise(days = median(round(Wait.Time))) %>%
   arrange(Appt.WeekNum) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -2729,7 +2729,7 @@ current_last_wait_site_inPerson <- merge(current_last_wait_site_inPerson_all, cu
 current_last_wait_site_inPerson <- current_last_wait_site_inPerson %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_site_inPerson$Visit.Method <- "IN PERSON"
@@ -2748,11 +2748,11 @@ current_last_wait_site_tele_ptType <- time_to_appt_all %>%
     filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
     filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   filter(Visit.Method == "TELEHEALTH") %>%
-  group_by(Appt.Year, Appt.WeekNum, New.PT3) %>%
+  group_by(Appt.Year, Appt.WeekNum, New.PT2) %>%
   summarise(days = median(round(Wait.Time))) %>%
   arrange(Appt.WeekNum) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -2765,7 +2765,7 @@ current_last_wait_site_tele <- merge(current_last_wait_site_tele_all, current_la
 current_last_wait_site_tele <- current_last_wait_site_tele %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_site_tele$Visit.Method <- "TELEHEALTH"
@@ -2775,14 +2775,14 @@ current_last_wait_site_combined <- bind_rows(current_last_wait_site_all, current
 
 current_last_wait_site_combined <- merge(current_last_wait_site_combined, weekNum_sunday[,c("Appt.Year","Appt.WeekNum","Appt.DateYear")])
 current_last_wait_site_combined <- current_last_wait_site_combined %>%
-  select(Appt.DateYear, Visit.Method, New.PT3, days) %>%
-  arrange(Appt.DateYear, New.PT3) %>%
+  select(Appt.DateYear, Visit.Method, New.PT2, days) %>%
+  arrange(Appt.DateYear, New.PT2) %>%
   arrange(factor(Visit.Method, levels = c("Total","IN PERSON","TELEHEALTH")))
 
 
 current_last_wait_site_combined <- current_last_wait_site_combined %>%
   pivot_wider(
-    names_from = Visit.Method:New.PT3,
+    names_from = Visit.Method:New.PT2,
     values_from = days
   )
 
@@ -2858,7 +2858,7 @@ current_last_new_site <- time_to_appt_all %>%
   filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
   filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   mutate(within.14 = ifelse(Wait.Time <= 14, "Yes","No")) %>%
-  group_by(Appt.Made.Year, Appt.Made.WeekNum, Visit.Method, New.PT3, within.14) %>%
+  group_by(Appt.Made.Year, Appt.Made.WeekNum, Visit.Method, New.PT2, within.14) %>%
   summarise(count = n()) %>%
   rename(Appt.Year = Appt.Made.Year,
          Appt.WeekNum = Appt.Made.WeekNum)
@@ -2867,12 +2867,12 @@ current_last_new_site <- merge(current_last_new_site, weekNum_sunday[,c("Appt.Ye
 
 current_last_new_site_total <- current_last_new_site %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -2883,12 +2883,12 @@ current_last_new_site_total <- current_last_new_site %>%
 current_last_new_site_person <- current_last_new_site %>%
   filter(Visit.Method == "IN PERSON") %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -2899,12 +2899,12 @@ current_last_new_site_person <- current_last_new_site %>%
 current_last_new_site_tele <- current_last_new_site %>%
   filter(Visit.Method == "TELEHEALTH") %>%
   arrange(Appt.DateYear) %>%
-  group_by(Appt.DateYear, New.PT3, within.14) %>%
+  group_by(Appt.DateYear, New.PT2, within.14) %>%
   summarise(count = sum(count)) %>%
   pivot_wider(names_from = within.14,
               values_from = count,
               values_fill = 0) %>%
-  pivot_wider(names_from = New.PT3,
+  pivot_wider(names_from = New.PT2,
               values_from = c(No,Yes),
               values_fill = 0) %>%
   mutate(new_perc = percent((No_New + Yes_New)/(No_Established + Yes_Established),0),
@@ -2966,10 +2966,10 @@ current_last_wait_dept <- function(site){
 current_last_wait_dept_all_ptType <- time_to_appt_all %>%
   # filter(Appt.Year == todays_year) %>%
   filter(Appt.WeekNum == todays_week) %>%
-  group_by(Department, Appt.Year, Appt.WeekNum, New.PT3) %>%
+  group_by(Department, Appt.Year, Appt.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
   pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -2977,7 +2977,7 @@ current_last_wait_dept_all <- merge(current_last_wait_dept_all_all, current_last
 current_last_wait_dept_all <- current_last_wait_dept_all %>%
   pivot_longer(
     4:6,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_dept_all$Visit.Method <- "Total"
@@ -2993,10 +2993,10 @@ current_last_wait_dept_inPerson_ptType <- time_to_appt_all %>%
   # filter(Appt.Year == todays_year) %>%
   filter(Appt.WeekNum == todays_week) %>%
   filter(Visit.Method == "IN PERSON") %>%
-  group_by(Department, Appt.Year, Appt.WeekNum, New.PT3) %>%
+  group_by(Department, Appt.Year, Appt.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -3004,7 +3004,7 @@ current_last_wait_dept_inPerson <- merge(current_last_wait_dept_inPerson_all, cu
 current_last_wait_dept_inPerson <- current_last_wait_dept_inPerson %>%
   pivot_longer(
     4:6,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_dept_inPerson$Visit.Method <- "IN PERSON"
@@ -3020,10 +3020,10 @@ current_last_wait_dept_tele_ptType <- time_to_appt_all %>%
   # filter(Appt.Year == todays_year) %>%
   filter(Appt.WeekNum == todays_week) %>%
   filter(Visit.Method == "TELEHEALTH") %>%
-  group_by(Department, Appt.Year, Appt.WeekNum, New.PT3) %>%
+  group_by(Department, Appt.Year, Appt.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -3031,7 +3031,7 @@ current_last_wait_dept_tele <- merge(current_last_wait_dept_tele_all, current_la
 current_last_wait_dept_tele <- current_last_wait_dept_tele %>%
   pivot_longer(
     4:6,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_dept_tele$Visit.Method <- "TELEHEALTH"
@@ -3041,14 +3041,14 @@ current_last_wait_dept_combined <- bind_rows(current_last_wait_dept_all, current
 
 current_last_wait_dept_combined <- merge(current_last_wait_dept_combined, weekNum_sunday[,c("Appt.Year","Appt.WeekNum","Appt.DateYear")])
 current_last_wait_dept_combined <- current_last_wait_dept_combined %>%
-  select(Department, Visit.Method, New.PT3, days) %>%
+  select(Department, Visit.Method, New.PT2, days) %>%
   arrange(Department) %>%
   arrange(factor(Visit.Method, levels = c("Total","IN PERSON","TELEHEALTH")))
 
 
 current_last_wait_dept_combined <- current_last_wait_dept_combined %>%
   pivot_wider(
-    names_from = Visit.Method:New.PT3,
+    names_from = Visit.Method:New.PT2,
     values_from = days
   ) %>%
   arrange(desc(Total_All))
