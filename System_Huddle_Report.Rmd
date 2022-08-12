@@ -551,7 +551,7 @@ scheduling_data <- scheduling_data_raw %>%
   filter(!is.na(Campus)) %>%
   mutate(Appt.WeekNum = lubridate::epiweek(Appt.DateYear),
          Visit.Method  = case_when(Visit.Method == "IN PERSON" ~ 'IN PERSON',TRUE ~ 'TELEHEALTH'),
-         New.PT3 = case_when(New.PT3 == "TRUE" ~ 'New',TRUE ~ 'Established'),
+         New.PT2 = case_when(New.PT2 == "TRUE" ~ 'New',TRUE ~ 'Established'),
          enc.status = case_when(ENC_CLOSED_CHARGE_STATUS %in% c("OPEN", "CLOSED BUT COSIGN NEEDED") ~ 'OPEN',TRUE ~ 'CLOSED'),
          open.hours = ifelse(enc.status == "OPEN", 
                              as.numeric(round(difftime(max(date_end)+1, Appt.DTTM, units = "hours"))),
@@ -632,8 +632,8 @@ vol_past_month <- scheduling_data %>%
 #   filter(Campus.Specialty %in% c("Internal Medicine", "Family Medicine")) %>%
 #   # mutate(Wait.Time = as.numeric(round(difftime(Appt.DTTM, Appt.Made.DTTM,  units = "days")))) %>%
 #   filter(Wait.Time >= 0) %>%
-#   # filter(!is.na(New.PT3)) %>%
-#   # mutate(New.PT3 = case_when(New.PT3 == "TRUE" ~ 'New'
+#   # filter(!is.na(New.PT2)) %>%
+#   # mutate(New.PT2 = case_when(New.PT2 == "TRUE" ~ 'New'
 #   #                                  ,TRUE ~ 'Established')) %>%
 #   mutate(Wait.Time = as.numeric(Wait.Time))
 
@@ -1150,7 +1150,7 @@ highchart() %>%
 # new_wait_trend <- scheduling_data %>%
 #   filter(Campus != "MSBI") %>%
 #   filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
-#   filter(New.PT3 == "New") %>%
+#   filter(New.PT2 == "New") %>%
 #   # mutate(Appt.Made.Year = format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y"),
 #   #        Appt.Made.MonthYear = as.Date(paste0(format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y-%m"), "-01"))) %>%
 #   # filter(Appt.Made.Year >= 2021) %>%
@@ -1190,7 +1190,7 @@ highchart() %>%
 new_perc_trend <- scheduling_data %>%
   filter(Campus != "MSBI") %>%
   filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
-  filter(New.PT3 == "New") %>%
+  filter(New.PT2 == "New") %>%
   # mutate(Appt.Made.MonthYear = as.Date(paste0(format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y-%m"), "-01"))) %>%
   filter(Campus.Specialty %in% c("Internal Medicine", "Family Medicine")) %>%
   filter(Wait.Time >= 0) %>%
@@ -1673,7 +1673,7 @@ current_same_vol_mshs_all %>%
 time_to_appt_all <- scheduling_data %>%
   filter(Campus != "MSBI") %>%
   filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
-  # filter(New.PT3 == "New") %>%
+  filter(New.PT2 == "New") %>%
   # mutate(Appt.Made.Year = format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y"),
   #        Appt.Made.MonthYear = as.Date(paste0(format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y-%m"), "-01"))) %>%
   # filter(Appt.Made.Year >= 2021) %>%
@@ -1692,11 +1692,11 @@ current_last_wait_mshs_all_all <- time_to_appt_all %>%
 current_last_wait_mshs_all_ptType <- time_to_appt_all %>%
   filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
   filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
-  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT3) %>%
+  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
   arrange(Appt.Made.WeekNum) %>%
   pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -1704,7 +1704,7 @@ current_last_wait_mshs_all <- merge(current_last_wait_mshs_all_all, current_last
 current_last_wait_mshs_all <- current_last_wait_mshs_all %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_mshs_all$Visit.Method <- "Total"
@@ -1721,11 +1721,11 @@ current_last_wait_mshs_inPerson_ptType <- time_to_appt_all %>%
   filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
   filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   filter(Visit.Method == "IN PERSON") %>%
-  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT3) %>%
+  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
   arrange(Appt.Made.WeekNum) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -1733,7 +1733,7 @@ current_last_wait_mshs_inPerson <- merge(current_last_wait_mshs_inPerson_all, cu
 current_last_wait_mshs_inPerson <- current_last_wait_mshs_inPerson %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_mshs_inPerson$Visit.Method <- "IN PERSON"
@@ -1750,11 +1750,11 @@ current_last_wait_mshs_tele_ptType <- time_to_appt_all %>%
   filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
   filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   filter(Visit.Method == "TELEHEALTH") %>%
-  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT3) %>%
+  group_by(Appt.Made.Year, Appt.Made.WeekNum, New.PT2) %>%
   summarise(days = median(Wait.Time)) %>%
   arrange(Appt.Made.WeekNum) %>%
     pivot_wider(
-    names_from = New.PT3,
+    names_from = New.PT2,
     values_from = days
   )
 
@@ -1762,7 +1762,7 @@ current_last_wait_mshs_tele <- merge(current_last_wait_mshs_tele_all, current_la
 current_last_wait_mshs_tele <- current_last_wait_mshs_tele %>%
   pivot_longer(
     3:5,
-    names_to = "New.PT3",
+    names_to = "New.PT2",
     values_to = "days"
   )
 current_last_wait_mshs_tele$Visit.Method <- "TELEHEALTH"
@@ -1776,14 +1776,14 @@ current_last_wait_mshs_combined <- current_last_wait_mshs_combined%>%
 current_last_wait_mshs_combined <- merge(current_last_wait_mshs_combined, weekNum_sunday[,c("Appt.Year","Appt.WeekNum","Appt.DateYear")])
 
 current_last_wait_mshs_combined <- current_last_wait_mshs_combined %>%
-  select(Appt.DateYear, Visit.Method, New.PT3, days) %>%
-  arrange(Appt.DateYear, New.PT3) %>%
+  select(Appt.DateYear, Visit.Method, New.PT2, days) %>%
+  arrange(Appt.DateYear, New.PT2) %>%
   arrange(factor(Visit.Method, levels = c("Total","IN PERSON","TELEHEALTH")))
 
 
 current_last_wait_mshs_combined <- current_last_wait_mshs_combined %>%
   pivot_wider(
-    names_from = Visit.Method:New.PT3,
+    names_from = Visit.Method:New.PT2,
     values_from = days
   )
 
@@ -1862,7 +1862,7 @@ current_last_new_mshs <- time_to_appt_all %>%
   filter(Appt.Made.Year %in% unique(past_4_wks$Appt.Year)) %>%
   filter(Appt.Made.WeekNum %in% unique(past_4_wks$Appt.WeekNum)) %>%
   mutate(within.14 = ifelse(Wait.Time <= 14, "Yes","No")) %>%
-  group_by(Appt.Made.Year, Appt.Made.WeekNum, Visit.Method, New.PT3, within.14) %>%
+  group_by(Appt.Made.Year, Appt.Made.WeekNum, Visit.Method, New.PT2, within.14) %>%
   summarise(count = n()) %>%
   rename(Appt.Year = Appt.Made.Year,
          Appt.WeekNum = Appt.Made.WeekNum)
