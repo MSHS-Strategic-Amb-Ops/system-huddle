@@ -374,7 +374,6 @@ radiology_date <- paste0(radiology_data_raw[nrow(radiology_data_raw),"Appt.Month
 
 ```
 
-
 ```{r Hand Hygiene Data Processing, echo = FALSE, warning = FALSE, message = FALSE}
 
 colnames(hh_data_comp_raw) <- tolower(colnames(hh_data_comp_raw))
