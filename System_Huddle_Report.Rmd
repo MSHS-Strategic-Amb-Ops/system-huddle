@@ -1055,7 +1055,7 @@ new_vol_trending <- scheduling_data %>%
   pivot_wider(names_from = New.PT2,
               values_from = total) %>%
   mutate(total_vol = New + Established,
-         new_perc = round((`TRUE`/(total_vol))*100,0))
+         new_perc = round((New/(total_vol))*100,0))
 
 map(unique(new_vol_trending$Campus), function(x){
 highchart() %>% 
@@ -1106,8 +1106,8 @@ new_vol_trending_downtown <- scheduling_data %>%
   summarise(total = n()) %>%
   pivot_wider(names_from = New.PT2,
               values_from = total) %>%
-  mutate(total_vol = New + Established
-         new_perc = round((`TRUE`/(total_vol))*100,0))
+  mutate(total_vol = New + Established,
+         new_perc = round((New/(total_vol))*100,0))
 
 map(unique(new_vol_trending_downtown$Campus), function(x){
 highchart() %>% 
