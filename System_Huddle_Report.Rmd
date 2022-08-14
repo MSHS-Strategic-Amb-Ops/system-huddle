@@ -2292,7 +2292,7 @@ header_above <- c("title" = length(missing_chg_ytd_dept)-1)
 names(header_above) <- paste0(site," ",todays_year," YTD Open Encounters")
 header_above_2 <- c("title" = length(missing_chg_ytd_dept)-1)
 names(header_above_2) <- paste0("Opened Encounters from ",
-                              date_start," to ",missing_chg_cutOff)
+                              min(missing_ytd_data$Appt.DateYear)," to ",missing_chg_cutOff)
 
 missing_chg_ytd_dept %>% 
   dplyr::select(-Campus.Specialty) %>%
