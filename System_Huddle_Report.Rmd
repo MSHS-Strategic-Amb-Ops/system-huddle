@@ -1333,7 +1333,12 @@ msw <- data.frame(site = "MSW",
                       total_obs = 0,
                       total_comp = 0)
 
-hh_site <- bind_rows(hh_site, network, msw)
+msdfp <- data.frame(site = "MSDFP",
+                      Month = "2022-04",
+                      total_obs = 0,
+                      total_comp = 0)
+
+hh_site <- bind_rows(hh_site, network, msw, msdfp)
 hh_site <- hh_site %>%
   arrange(site, Month)
 
