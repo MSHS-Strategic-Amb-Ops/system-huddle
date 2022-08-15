@@ -385,10 +385,11 @@ colnames(hh_data_comp_raw) <- tolower(colnames(hh_data_comp_raw))
 
 # Map MSD units 
 hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSD", 
-                                hh_crosswalk$msd_unit[match(hh_data_comp_raw$msd_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
+                                hh_crosswalk$unit[match(hh_data_comp_raw$msd_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
 
-# Rename msh_unit
-hh_data_comp_raw$site <- ifelse(hh_data_comp_raw$site == "MSH", "MSH- AMBULATORY CARE", hh_data_comp_raw$site)
+# Map msh_unit
+hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSH", 
+                                hh_crosswalk$unit[match(hh_data_comp_raw$msh_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
 
 hh_data_comp <- hh_data_comp_raw %>%
   dplyr::select(-language) %>%
