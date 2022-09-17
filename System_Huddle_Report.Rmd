@@ -530,7 +530,7 @@ weekNum_sunday <- scheduling_data_raw %>%
   dplyr::select(Appt.Year, Appt.WeekNum, Appt.Day, Appt.DateYear) %>%
   distinct() %>%
   arrange(Appt.DateYear)
-weekNum_sunday <- head(weekNum_sunday)
+weekNum_sunday <- head(weekNum_sunday, -1)
 
 # Set Variables
 report_run_date <- Sys.time()
