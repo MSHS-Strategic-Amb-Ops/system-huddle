@@ -1441,6 +1441,8 @@ highchart() %>%
 }) %>% 
   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
 
+invisible(gc())
+
 ```
 
 
@@ -2125,6 +2127,8 @@ hh_mshs_final %>%
    footnote(general_title = "",
            general = "Target: 90%",
            escape = FALSE)
+
+invisible(gc())
 
 ```
 
