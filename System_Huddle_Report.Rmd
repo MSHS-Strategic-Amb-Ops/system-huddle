@@ -621,6 +621,8 @@ vol_past_month <- scheduling_data %>%
     values_to = "weekly_vol"
   ) %>%
   mutate(Appt.WeekNum = as.numeric(Appt.WeekNum))
+
+invisible(gc())
   
 ```
 
