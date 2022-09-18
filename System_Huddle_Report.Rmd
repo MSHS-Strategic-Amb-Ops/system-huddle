@@ -3346,12 +3346,21 @@ hh_site <- hh_site %>%
 
 hh_site_final <- hh_site %>%
   pivot_wider(names_from = role,
-              values_from = c("total_obs","perc_comp")) %>%
-  dplyr::select(Appt.DateYear, `total_obs_a-bef`, `perc_comp_a-bef`, `total_obs_b-aft`, `perc_comp_b-aft`,
-                total_obs_provider_hands_bef, perc_comp_provider_hands_bef, total_obs_provider_hands_aft, perc_comp_provider_hands_aft,
-                total_obs_nurse_hands_bef, perc_comp_nurse_hands_bef, total_obs_nurse_hands_aft, perc_comp_nurse_hands_aft,
-                total_obs_mt_hands_bef, perc_comp_mt_hands_bef, total_obs_mt_hands_aft, perc_comp_mt_hands_aft)
+              values_from = c("total_obs","perc_comp"))
 
+  # dplyr::select(Appt.DateYear, `total_obs_a-bef`, `perc_comp_a-bef`, `total_obs_b-aft`, `perc_comp_b-aft`,
+  #               total_obs_provider_hands_bef, perc_comp_provider_hands_bef, total_obs_provider_hands_aft, perc_comp_provider_hands_aft,
+  #               total_obs_nurse_hands_bef, perc_comp_nurse_hands_bef, total_obs_nurse_hands_aft, perc_comp_nurse_hands_aft,
+  #               total_obs_mt_hands_bef, perc_comp_mt_hands_bef, total_obs_mt_hands_aft, perc_comp_mt_hands_aft)
+
+cols <- c("Appt.DateYear", "total_obs_a-bef", "perc_comp_a-bef", "total_obs_b-aft", "perc_comp_b-aft",
+          "total_obs_provider_hands_bef", "perc_comp_provider_hands_bef", "total_obs_provider_hands_aft",
+          "perc_comp_provider_hands_aft", "total_obs_nurse_hands_bef", "perc_comp_nurse_hands_bef", "total_obs_nurse_hands_aft",
+          "perc_comp_nurse_hands_aft", "total_obs_mt_hands_bef", "perc_comp_mt_hands_bef", "total_obs_mt_hands_aft",
+          "perc_comp_mt_hands_aft")
+missing <- setdiff(cols, names(hh_site_final))
+hh_site_final[missing] <- 0
+hh_site_final <- hh_site_final[cols]
 
 comp_formatter <- formatter("span", 
   style = x ~ style(color = ifelse(x >= 0.9, "#00b800", "#ff3300")))
