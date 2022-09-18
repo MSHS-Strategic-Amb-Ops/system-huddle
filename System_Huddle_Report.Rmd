@@ -283,7 +283,7 @@ scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/
 
 # scheduling_data_raw <- as.data.frame(readRDS("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/historical_data.rds")) %>%
 #   filter(!is.na(Campus)) %>%
-#    filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD")) 
+#    filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
 
 # scheduling_data_test <- scheduling_data_raw %>% filter(Appt.Year == "2022")
 # saveRDS(scheduling_data_test, "historical_data_test.rds")
@@ -376,6 +376,7 @@ rad_onc_date <- paste0(rad_onc_data_raw[nrow(rad_onc_data_raw),"Appt.Month"],", 
 radiology_date <- paste0(radiology_data_raw[nrow(radiology_data_raw),"Appt.Month"],", ", radiology_data_raw[nrow(radiology_data_raw),"Appt.Year"])
 
 ```
+
 
 ```{r Hand Hygiene Data Processing, echo = FALSE, warning = FALSE, message = FALSE}
 
@@ -530,10 +531,10 @@ weekNum_sunday <- scheduling_data_raw %>%
   dplyr::select(Appt.Year, Appt.WeekNum, Appt.Day, Appt.DateYear) %>%
   distinct() %>%
   arrange(Appt.DateYear)
-weekNum_sunday <- head(weekNum_sunday, -1)
+# weekNum_sunday <- head(weekNum_sunday, -1)
 
 # Set Variables
-report_run_date <- Sys.time()
+report_run_date <- Sys.Date()
 
 todays_date <- (tail(weekNum_sunday,1))$Appt.DateYear
 todays_year <- strftime(todays_date, format = "%Y")
