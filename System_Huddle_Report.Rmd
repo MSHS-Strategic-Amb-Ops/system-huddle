@@ -160,7 +160,7 @@ suppressMessages({
   library(shinyjs)
   library(janitor)
   library(patchwork)
-  library(RODBC)
+  # library(RODBC)
   library(DBI)
   library(odbc)
 })
