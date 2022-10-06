@@ -160,6 +160,9 @@ suppressMessages({
   library(shinyjs)
   library(janitor)
   library(patchwork)
+  library(RODBC)
+  library(DBI)
+  library(odbc)
 })
 
 ```
@@ -288,7 +291,7 @@ scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/
 # scheduling_data_test <- scheduling_data_raw %>% filter(Appt.Year == "2022")
 # saveRDS(scheduling_data_test, "historical_data_test.rds")
 
-hh_data_comp_raw <-  as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_comp.csv"))
+# hh_data_comp_raw <-  as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_comp.csv"))
 hh_crosswalk <- as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_crosswalk.csv"))
 
 # hh_data_comp_raw <-  as.data.frame(read_csv("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/Github/server-upload/hh_comp.csv"))
@@ -299,6 +302,24 @@ date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 # date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
 
+```
+
+```{r Import HH Data, echo = FALSE, warning = FALSE, message = FALSE}
+
+# conn1 <- odbcConnect("handhygiene") # Connect to Server
+# 
+# # Import Referrals+Visit Data --------------------------------------------------
+# hh_data_comp_raw <- sqlQuery(conn1, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp") # Master Referrals Data
+
+con_hh <- dbConnect(odbc(),
+                    Driver = "SQLServer",
+                    Server = "10.2.42.69",
+                    UID = "kweons01",
+                    PWD = "Pasword01#PasPasword01#Pas",
+                    Port = 1433)     
+
+hh_data_comp_raw <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
+ 
 ```
 
 
@@ -427,7 +448,7 @@ hh_data_merged <- hh_data_comp %>%
             nurse_hands_aft = sum(nurse_hands_aft),
             mt_hands_bef = sum(mt_hands_bef),
             mt_hands_aft = sum(mt_hands_aft)) %>%
-  mutate(date = as.Date(date, "%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date))
 
@@ -439,7 +460,7 @@ hh_data_merged_role <- hh_data_comp %>%
   pivot_longer(provider_hands_bef: mt_hands_aft,
                names_to = "role",
                values_to = "compliance") %>%
-  mutate(date = as.Date(date, "%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date),
          compliance = ifelse(compliance == 2,0,compliance)) %>%
