@@ -46,8 +46,8 @@
       "description": {
         "Package": "DBI",
         "Title": "R Database Interface",
-        "Version": "1.1.2",
-        "Date": "2021-12-19",
+        "Version": "1.1.3",
+        "Date": "2022-06-18",
         "Authors@R": "c(\n    person(\"R Special Interest Group on Databases (R-SIG-DB)\", role = \"aut\"),\n    person(\"Hadley\", \"Wickham\", role = \"aut\"),\n    person(\"Kirill\", \"Müller\", , \"krlmlr+r@mailbox.org\", role = c(\"aut\", \"cre\"),\n           comment = c(ORCID = \"0000-0002-1416-3412\")),\n    person(\"R Consortium\", role = \"fnd\")\n  )",
         "Description": "A database interface definition for communication between R\n    and relational database management systems.  All classes in this\n    package are virtual and need to be extended by the various R/DBMS\n    implementations.",
         "License": "LGPL (>= 2.1)",
@@ -60,16 +60,16 @@
         "Config/autostyle/strict": "false",
         "Config/Needs/check": "r-dbi/DBItest",
         "Encoding": "UTF-8",
-        "RoxygenNote": "7.1.2",
-        "Config/Needs/website": "r-dbi/DBItest, AzureKusto, bigrquery,\nDatabaseConnector, dittodb, duckdb, implyr, lazysf, odbc, pool,\nRAthena, RClickhouse, RH2, RJDBC, RMariaDB, RMySQL, RPostgres,\nRPostgreSQL, RPresto, RSQLite, sergeant, sparklyr",
+        "RoxygenNote": "7.2.0",
+        "Config/Needs/website": "r-dbi/DBItest, AzureKusto, bigrquery,\nDatabaseConnector, dittodb, duckdb, implyr, lazysf, odbc, pool,\nRAthena, IMSMWU/RClickhouse, RH2, RJDBC, RMariaDB, RMySQL,\nRPostgres, RPostgreSQL, RPresto, RSQLite, sergeant, sparklyr,\nwithr",
         "Collate": "'DBIObject.R' 'DBIDriver.R' 'Id.R' 'DBIConnection.R' 'ANSI.R'\n'DBI-package.R' 'DBIConnector.R' 'DBIResult.R' 'SQL.R'\n'SQLKeywords.R' 'SQLKeywords_DBIObject.R'\n'SQLKeywords_missing.R' 'data-types.R' 'data.R'\n'dbAppendTable.R' 'dbAppendTable_DBIConnection.R' 'dbBegin.R'\n'dbBind.R' 'dbCallProc.R' 'dbCanConnect.R'\n'dbCanConnect_DBIDriver.R' 'dbClearResult.R' 'dbColumnInfo.R'\n'dbCommit.R' 'dbConnect.R' 'dbConnect_DBIConnector.R'\n'dbCreateTable.R' 'dbCreateTable_DBIConnection.R'\n'dbDataType.R' 'dbDataType_DBIConnector.R'\n'dbDataType_DBIObject.R' 'dbDisconnect.R' 'dbDriver.R'\n'dbDriver_character.R' 'dbExecute.R'\n'dbExecute_DBIConnection_character.R' 'dbExistsTable.R'\n'dbExistsTable_DBIConnection_Id.R' 'dbFetch.R'\n'dbFetch_DBIResult.R' 'dbGetConnectArgs.R'\n'dbGetConnectArgs_DBIConnector.R' 'dbGetException.R'\n'dbGetInfo.R' 'dbGetInfo_DBIResult.R' 'dbGetQuery.R'\n'dbGetQuery_DBIConnection_character.R' 'dbGetRowCount.R'\n'dbGetRowsAffected.R' 'dbGetStatement.R' 'dbHasCompleted.R'\n'dbIsReadOnly.R' 'dbIsReadOnly_DBIConnector.R'\n'dbIsReadOnly_DBIObject.R' 'dbIsValid.R' 'dbListConnections.R'\n'dbListFields.R' 'dbListFields_DBIConnection_Id.R'\n'dbListFields_DBIConnection_character.R' 'dbListObjects.R'\n'dbListObjects_DBIConnection_ANY.R' 'dbListResults.R'\n'dbListTables.R' 'dbQuoteIdentifier.R'\n'dbQuoteIdentifier_DBIConnection.R' 'dbQuoteLiteral.R'\n'dbQuoteLiteral_DBIConnection.R' 'dbQuoteString.R'\n'dbQuoteString_DBIConnection.R' 'dbReadTable.R'\n'dbReadTable_DBIConnection_Id.R'\n'dbReadTable_DBIConnection_character.R' 'dbRemoveTable.R'\n'dbRemoveTable_DBIConnection_Id.R' 'dbRollback.R'\n'dbSendQuery.R' 'dbSendStatement.R'\n'dbSendStatement_DBIConnection_character.R'\n'dbSetDataMappings.R' 'dbUnloadDriver.R'\n'dbUnquoteIdentifier.R' 'dbUnquoteIdentifier_DBIConnection.R'\n'dbWithTransaction.R' 'dbWithTransaction_DBIConnection.R'\n'dbWriteTable.R' 'dbWriteTable_DBIConnection_Id_ANY.R'\n'dbiDataType.R' 'dbiDataType_AsIs.R' 'dbiDataType_Date.R'\n'dbiDataType_POSIXct.R' 'dbiDataType_character.R'\n'dbiDataType_data.frame.R' 'dbiDataType_difftime.R'\n'dbiDataType_integer.R' 'dbiDataType_list.R'\n'dbiDataType_logical.R' 'dbiDataType_numeric.R' 'deprecated.R'\n'fetch.R' 'hms.R' 'interpolate.R' 'isSQLKeyword.R'\n'isSQLKeyword_DBIObject_character.R' 'make.db.names.R'\n'make.db.names_DBIObject_character.R' 'methods_as_rd.R'\n'rownames.R' 'show_AnsiConnection.R' 'show_DBIConnection.R'\n'show_DBIConnector.R' 'show_DBIDriver.R' 'show_DBIResult.R'\n'show_Id.R' 'show_SQL.R' 'sqlAppendTable.R'\n'sqlAppendTableTemplate.R' 'sqlAppendTable_DBIConnection.R'\n'sqlCreateTable.R' 'sqlCreateTable_DBIConnection.R' 'sqlData.R'\n'sqlData_DBIConnection.R' 'sqlInterpolate.R'\n'sqlInterpolate_DBIConnection.R' 'sqlParseVariables.R'\n'sqlParseVariables_DBIConnection.R' 'summary.R'\n'summary_DBIObject.R' 'transactions.R'",
         "NeedsCompilation": "no",
-        "Packaged": "2021-12-19 20:43:28 UTC; kirill",
+        "Packaged": "2022-06-18 01:24:38 UTC; kirill",
         "Author": "R Special Interest Group on Databases (R-SIG-DB) [aut],\n  Hadley Wickham [aut],\n  Kirill Müller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),\n  R Consortium [fnd]",
         "Maintainer": "Kirill Müller <krlmlr+r@mailbox.org>",
         "Repository": "CRAN",
-        "Date/Publication": "2021-12-20 08:32:06 UTC",
-        "Built": "R 4.1.2; ; 2022-02-17 23:16:13 UTC; windows"
+        "Date/Publication": "2022-06-18 07:10:15 UTC",
+        "Built": "R 4.1.3; ; 2022-07-18 11:01:05 UTC; windows"
       }
     },
     "DT": {
@@ -256,6 +256,36 @@
         "Repository": "CRAN",
         "Date/Publication": "2014-12-07 08:28:55",
         "Built": "R 4.1.1; ; 2021-09-10 15:50:10 UTC; windows"
+      }
+    },
+    "RODBC": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com/",
+      "GithubRepo": null,
+      "GithubUsername": null,
+      "GithubRef": null,
+      "GithubSha1": null,
+      "description": {
+        "Package": "RODBC",
+        "Version": "1.3-19",
+        "Revision": "$Rev: 3553 $",
+        "Date": "2021-09-18",
+        "Authors@R": "c(person(\"Brian\", \"Ripley\", role = c(\"aut\", \"cre\"),\n                    email = \"ripley@stats.ox.ac.uk\"),\n             person(\"Michael\", \"Lapsley\", role = \"aut\", \n\t            comment = \"1999 to Oct 2002\"))",
+        "Title": "ODBC Database Access",
+        "Description": "An ODBC database interface.",
+        "SystemRequirements": "An ODBC3 driver manager and drivers.",
+        "Depends": "R (>= 4.0.0)",
+        "Imports": "stats",
+        "LazyLoad": "yes",
+        "Biarch": "yes",
+        "License": "GPL-2 | GPL-3",
+        "NeedsCompilation": "yes",
+        "Packaged": "2021-09-16 12:28:12 UTC; ripley",
+        "Author": "Brian Ripley [aut, cre],\n  Michael Lapsley [aut] (1999 to Oct 2002)",
+        "Maintainer": "Brian Ripley <ripley@stats.ox.ac.uk>",
+        "Repository": "CRAN",
+        "Date/Publication": "2021-09-16 18:47:10 UTC",
+        "Built": "R 4.1.1; x86_64-w64-mingw32; 2021-09-17 08:19:12 UTC; windows"
       }
     },
     "Rcpp": {
@@ -3728,6 +3758,40 @@
         "Built": "R 4.1.2; x86_64-w64-mingw32; 2022-02-18 11:39:02 UTC; windows"
       }
     },
+    "odbc": {
+      "Source": "CRAN",
+      "Repository": "https://cran.rstudio.com/",
+      "GithubRepo": null,
+      "GithubUsername": null,
+      "GithubRef": null,
+      "GithubSha1": null,
+      "description": {
+        "Package": "odbc",
+        "Title": "Connect to ODBC Compatible Databases (using the DBI Interface)",
+        "Version": "1.3.3",
+        "Authors@R": "\n    c(person(given = \"Jim\",\n             family = \"Hester\",\n             role = \"aut\"),\n      person(given = \"Hadley\",\n             family = \"Wickham\",\n             role = c(\"aut\", \"cre\"),\n             email = \"hadley@rstudio.com\"),\n      person(given = \"Oliver\", \"Gjoneski\", role = \"ctb\", comment = \"detule\"),\n      person(given = \"lexicalunit\",\n             role = \"cph\",\n             comment = \"nanodbc library\"),\n      person(given = \"Google Inc.\",\n             role = \"cph\",\n             comment = \"cctz library\"),\n      person(given = \"RStudio\",\n             role = c(\"cph\", \"fnd\")))",
+        "Description": "A DBI-compatible interface to ODBC databases.",
+        "License": "MIT + file LICENSE",
+        "URL": "https://github.com/r-dbi/odbc, https://db.rstudio.com",
+        "BugReports": "https://github.com/r-dbi/odbc/issues",
+        "Depends": "R (>= 3.2.0)",
+        "Imports": "bit64, blob (>= 1.2.0), DBI (>= 1.0.0), hms, methods, rlang,\nRcpp (>= 0.12.11)",
+        "Suggests": "covr, DBItest, magrittr, RSQLite, testthat, tibble",
+        "LinkingTo": "Rcpp",
+        "ByteCompile": "true",
+        "Encoding": "UTF-8",
+        "RoxygenNote": "7.1.2",
+        "SystemRequirements": "C++11, GNU make, An ODBC3 driver manager and\ndrivers.",
+        "Collate": "'odbc.R' 'Driver.R' 'Connection.R' 'DataTypes.R'\n'RcppExports.R' 'Result.R' 'Table.R' 'Viewer.R' 'db.R'\n'hidden.R' 'utils.R' 'zzz.R'",
+        "NeedsCompilation": "yes",
+        "Packaged": "2021-11-29 20:57:53 UTC; jhester",
+        "Author": "Jim Hester [aut],\n  Hadley Wickham [aut, cre],\n  Oliver Gjoneski [ctb] (detule),\n  lexicalunit [cph] (nanodbc library),\n  Google Inc. [cph] (cctz library),\n  RStudio [cph, fnd]",
+        "Maintainer": "Hadley Wickham <hadley@rstudio.com>",
+        "Repository": "CRAN",
+        "Date/Publication": "2021-11-30 09:10:02 UTC",
+        "Built": "R 4.1.3; x86_64-w64-mingw32; 2022-07-18 14:07:24 UTC; windows"
+      }
+    },
     "openssl": {
       "Source": "CRAN",
       "Repository": "https://cran.rstudio.com/",
@@ -6550,11 +6614,47 @@
     "Reports/System_Huddle_Report_06.27.2022.html": {
       "checksum": "fa15be7b8880d35fbf1e321f8dbb9434"
     },
+    "Reports/System_Huddle_Report_07.11.2022.html": {
+      "checksum": "39fd3f023c8f8c458f744bcf4dd64fb8"
+    },
+    "Reports/System_Huddle_Report_07.18.2022.html": {
+      "checksum": "c2182ca8b8e29e6a80255c253ce9c862"
+    },
+    "Reports/System_Huddle_Report_07.25.2022.html": {
+      "checksum": "f55174c87a99319dba365118bb5fa56f"
+    },
+    "Reports/System_Huddle_Report_08.01.2022.html": {
+      "checksum": "9b7e39a34f7d65db327e214ec9c560b2"
+    },
+    "Reports/System_Huddle_Report_08.08.2022.html": {
+      "checksum": "7dc089d5ac464e8e7fce76de71033b1c"
+    },
+    "Reports/System_Huddle_Report_08.15.2022.html": {
+      "checksum": "edf121ed9fc485e9f8e45d50ed1a7204"
+    },
+    "Reports/System_Huddle_Report_08.22.2022.html": {
+      "checksum": "a2a57bd6b3e0ed2f88694c2acd93cbcd"
+    },
+    "Reports/System_Huddle_Report_08.29.2022.html": {
+      "checksum": "fdd3c3c0ddc70a67ff242d734972a08d"
+    },
+    "Reports/System_Huddle_Report_09.19.2022.html": {
+      "checksum": "3ad5299750bc56e07b27263aa1b7e4aa"
+    },
+    "Reports/System_Huddle_Report_09.26.2022.html": {
+      "checksum": "48767b74f08d671ee5f975be559efd4d"
+    },
+    "Reports/System_Huddle_Report_10.03.2022.html": {
+      "checksum": "d2ccdef7eb5523f3e2e801ebffac0ee2"
+    },
+    "Reports/System_Huddle_Report_10.10.2022.html": {
+      "checksum": "602ab1a06d973f79f0388b3b03dcba4d"
+    },
     "System_Huddle_Report.html": {
       "checksum": "fa15be7b8880d35fbf1e321f8dbb9434"
     },
     "System_Huddle_Report.Rmd": {
-      "checksum": "894af95ab41af94c21a551533bd5e6af"
+      "checksum": "41acca3299bc7896572c0d98f414f0e4"
     }
   },
   "users": null
