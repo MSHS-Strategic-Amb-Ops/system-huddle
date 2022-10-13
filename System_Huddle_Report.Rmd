@@ -332,7 +332,7 @@ hh_data_merged <- hh_data_comp %>%
             mt_hands_aft = sum(mt_hands_aft)) %>%
   mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
          Appt.Year = as.numeric(format(as.Date(date, "%Y-%m-%d"),"%Y")),
-         Appt.WeekNum = lubridate::epiweek(date))
+         Appt.WeekNum = lubridate::epiweek(as.Date(date, "%m/%d/%Y")))
 hh_data_merged_role <- hh_data_comp %>%
   filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
   filter(!is.na(site)) %>%
@@ -342,7 +342,7 @@ hh_data_merged_role <- hh_data_comp %>%
                values_to = "compliance") %>%
   mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
          Appt.Year = as.numeric(format(as.Date(date, "%Y-%m-%d"),"%Y")),
-         Appt.WeekNum = lubridate::epiweek(date),
+         Appt.WeekNum = lubridate::epiweek(as.Date(date, "%m/%d/%Y")),
          compliance = ifelse(compliance == 2,0,compliance)) %>%
   filter(compliance != "") %>%
 # filter(!is.na(compliance)) %>%
