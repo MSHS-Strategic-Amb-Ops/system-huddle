@@ -303,15 +303,15 @@ hh_data_comp <- hh_data_comp_raw %>%
   mutate_if(is.numeric, as.character) %>%
   filter(!is.na(site))
 
-datatable(hh_data_comp, extensions = "Buttons", 
-            options = list(paging = TRUE,
-                           scrollX=TRUE, 
-                           searching = TRUE,
-                           ordering = TRUE,
-                           dom = 'Bfrtip',
-                           buttons = c('copy', 'csv', 'excel', 'pdf'),
-                           pageLength=5, 
-                           lengthMenu=c(3,5,10) ))
+# datatable(hh_data_comp, extensions = "Buttons", 
+#             options = list(paging = TRUE,
+#                            scrollX=TRUE, 
+#                            searching = TRUE,
+#                            ordering = TRUE,
+#                            dom = 'Bfrtip',
+#                            buttons = c('copy', 'csv', 'excel', 'pdf'),
+#                            pageLength=5, 
+#                            lengthMenu=c(3,5,10) ))
 
 hh_data_merged <- hh_data_comp %>%
   filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
@@ -347,9 +347,11 @@ hh_data_merged_role <- hh_data_comp %>%
   filter(!is.na(compliance)) %>%
   filter(compliance != 2) %>%
   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
-  summarise(total_obs = n()) %>%
-  mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
-         total_obs = as.numeric(total_obs)) 
+  summarise(total_obs = n()) 
+
+# %>%
+#   mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
+#          total_obs = as.numeric(total_obs)) 
 # %>%
   # pivot_wider(
   #   names_from = compliance,
