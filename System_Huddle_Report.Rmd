@@ -330,7 +330,7 @@ hh_data_merged <- hh_data_comp %>%
             nurse_hands_aft = sum(nurse_hands_aft),
             mt_hands_bef = sum(mt_hands_bef),
             mt_hands_aft = sum(mt_hands_aft)) %>%
-  mutate(date = as.Date(date, "%Y-%m-%d"),
+  mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date))
 hh_data_merged_role <- hh_data_comp %>%
@@ -340,47 +340,46 @@ hh_data_merged_role <- hh_data_comp %>%
   pivot_longer(provider_hands_bef: mt_hands_aft,
                names_to = "role",
                values_to = "compliance") %>%
-  mutate(date = as.Date(date, "%Y-%m-%d"),
+  mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date),
          compliance = ifelse(compliance == 2,0,compliance)) %>%
-  filter(compliance != "") 
-  # filter(!is.na(compliance)) %>%
-#   filter(compliance != 2) %>%
-#   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
-#   summarise(total_obs = n()) 
+  filter(compliance != "") %>%
+# filter(!is.na(compliance)) %>%
+  filter(compliance != 2) %>%
+  group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
+  summarise(total_obs = n())%>%
+  mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
+         total_obs = as.numeric(total_obs)) %>%
+  pivot_wider(
+    names_from = compliance,
+    values_from = total_obs,
+    values_fill=list(total_obs=0)) %>%
+    mutate(total_obs = Yes + No)
+  
 
-# %>%
-#   mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
-#          total_obs = as.numeric(total_obs)) 
-# %>%
-  # pivot_wider(
-  #   names_from = compliance,
-  #   values_from = total_obs,
-  #   values_fill=list(total_obs=0)
-  # )
-
-datatable(hh_data_merged_role, extensions = "Buttons", 
-            options = list(paging = TRUE,
-                           scrollX=TRUE, 
-                           searching = TRUE,
-                           ordering = TRUE,
-                           dom = 'Bfrtip',
-                           buttons = c('copy', 'csv', 'excel', 'pdf'),
-                           pageLength=5, 
-                           lengthMenu=c(3,5,10) ))
+# datatable(hh_data_merged_role, extensions = "Buttons", 
+#             options = list(paging = TRUE,
+#                            scrollX=TRUE, 
+#                            searching = TRUE,
+#                            ordering = TRUE,
+#                            dom = 'Bfrtip',
+#                            buttons = c('copy', 'csv', 'excel', 'pdf'),
+#                            pageLength=5, 
+#                            lengthMenu=c(3,5,10) ))
 
 
 
-str(hh_data_merged_role)
-#   mutate(total_obs = Yes + No)
+# str(hh_data_merged_role)
+
 # # Change NET to NETWORK
-# hh_data_merged <- hh_data_merged %>%
-#   mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
-#   arrange(date) %>%
-#   filter(unit != "NULL")
-# hh_data_merged_role <- hh_data_merged_role %>%
-#   mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
-#   arrange(date) %>%
-#   filter(unit != "NULL")
+hh_data_merged <- hh_data_merged %>%
+  mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
+  arrange(date) %>%
+  filter(unit != "NULL")
+hh_data_merged_role <- hh_data_merged_role %>%
+  mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
+  arrange(date) %>%
+  filter(unit != "NULL")
+
 ```
