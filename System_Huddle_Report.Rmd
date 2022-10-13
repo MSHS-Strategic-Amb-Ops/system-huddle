@@ -407,9 +407,9 @@ hh_data_merged <- hh_data_comp %>%
             nurse_hands_aft = sum(nurse_hands_aft),
             mt_hands_bef = sum(mt_hands_bef),
             mt_hands_aft = sum(mt_hands_aft)) %>%
-  mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(format(as.Date(date, "%Y-%m-%d"),"%Y")),
-         Appt.WeekNum = lubridate::epiweek(as.Date(date, "%m/%d/%Y")))
+         Appt.WeekNum = lubridate::epiweek(as.Date(date, "%Y-%m-%d")))
 hh_data_merged_role <- hh_data_comp %>%
   filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
   filter(!is.na(site)) %>%
@@ -417,7 +417,7 @@ hh_data_merged_role <- hh_data_comp %>%
   pivot_longer(provider_hands_bef: mt_hands_aft,
                names_to = "role",
                values_to = "compliance") %>%
-  mutate(date = format(as.Date(date, "%Y-%m-%d"),"%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(format(as.Date(date, "%Y-%m-%d"),"%Y")),
          Appt.WeekNum = lubridate::epiweek(as.Date(date, "%m/%d/%Y")),
          compliance = ifelse(compliance == 2,0,compliance)) %>%
