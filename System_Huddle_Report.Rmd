@@ -294,6 +294,7 @@ hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSH",
                                 hh_crosswalk$unit[match(hh_data_comp_raw$msh_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
 hh_data_comp <- hh_data_comp_raw %>%
   dplyr::select(-language) %>%
+  mutate(date = as.Date(date, "%Y-%m-%d")) %>%
   pivot_longer(
     c("msh_unit","msd_unit","nyee_unit","msq_unit","msm_unit","msw_unit","net_unit"),
     names_to = "unit_site",
