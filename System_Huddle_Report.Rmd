@@ -263,6 +263,7 @@ hh_data_comp_raw <- hh_data_comp_raw %>%
   mutate_all(as.character) %>%
   mutate(record_id = as.numeric(record_id),
          unit_complete = as.numeric(unit_complete))
+hh_data_comp_raw[is.na(hh_data_comp_raw) & is.n]
 
 
 
@@ -283,3 +284,83 @@ str(hh_data_comp_raw_csv)
 ```
 
 
+```{r Hand Hygiene Data Processing, echo = FALSE, warning = FALSE, message = FALSE}
+colnames(hh_data_comp_raw) <- tolower(colnames(hh_data_comp_raw))
+# colnames(hh_data_comp_raw)[which(colnames(hh_data_comp_raw) == "data_date")] <- "date"
+# Map MSD units
+hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSD",
+                                hh_crosswalk$unit[match(hh_data_comp_raw$msd_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
+# Map msh_unit
+hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSH",
+                                hh_crosswalk$unit[match(hh_data_comp_raw$msh_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
+hh_data_comp <- hh_data_comp_raw %>%
+  dplyr::select(-language) %>%
+  pivot_longer(
+    c("msh_unit","msd_unit","nyee_unit","msq_unit","msm_unit","msw_unit","net_unit"),
+    names_to = "unit_site",
+    values_to = "unit"
+  ) %>%
+  filter(date != "NULL") %>%
+  mutate_if(is.numeric, as.character) %>%
+  filter(!is.na(site))
+# hh_data_msd <- hh_data_msd_raw %>%
+#     filter(language != "NULL") %>%
+#   rename(date = data_date) %>%
+#   dplyr::select(-language) %>%
+#   mutate_if(is.numeric, as.character)
+#
+# hh_data_raw <- bind_rows(hh_data_comp, hh_data_msd)
+hh_data_merged <- hh_data_comp %>%
+  filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
+  filter(!is.na(site)) %>%
+  select(site, unit, date, worker___1, worker___2, worker___3, provider_hands_bef, provider_hands_aft, nurse_hands_bef, nurse_hands_aft, mt_hands_bef, mt_hands_aft) %>%
+  mutate(across(4:12, as.numeric)) %>%
+  mutate_if(is.numeric, ~ifelse(is.na(.),0,.)) %>%
+  mutate_if(is.numeric, ~ifelse(.==2,0,.)) %>%
+  group_by(site, unit, date) %>%
+  summarise(worker___1 = sum(worker___1),
+            worker___2 = sum(worker___2),
+            worker___3 = sum(worker___3),
+            provider_hands_bef = sum(provider_hands_bef),
+            provider_hands_aft = sum(provider_hands_aft),
+            nurse_hands_bef = sum(nurse_hands_bef),
+            nurse_hands_aft = sum(nurse_hands_aft),
+            mt_hands_bef = sum(mt_hands_bef),
+            mt_hands_aft = sum(mt_hands_aft)) %>%
+  mutate(date = as.Date(date, "%m/%d/%Y"),
+         Appt.Year = as.numeric(strftime(date, format = "%Y")),
+         Appt.WeekNum = lubridate::epiweek(date))
+hh_data_merged_role <- hh_data_comp %>%
+  filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
+  filter(!is.na(site)) %>%
+  select(site, unit, date, provider_hands_bef, provider_hands_aft, nurse_hands_bef, nurse_hands_aft, mt_hands_bef, mt_hands_aft) %>%
+  pivot_longer(provider_hands_bef: mt_hands_aft,
+               names_to = "role",
+               values_to = "compliance") %>%
+  mutate(date = as.Date(date, "%m/%d/%Y"),
+         Appt.Year = as.numeric(strftime(date, format = "%Y")),
+         Appt.WeekNum = lubridate::epiweek(date),
+         compliance = ifelse(compliance == 2,0,compliance)) %>%
+  filter(!is.na(compliance)) %>%
+  filter(compliance != 2) %>%
+  group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
+  summarise(total_obs = n()) %>%
+  mutate(compliance = ifelse(compliance == 0, "No", "Yes")) %>%
+  pivot_wider(
+    names_from = compliance,
+    values_from = total_obs,
+    values_fill=list(total_obs=0)
+  ) 
+
+str(hh_data_merged_role)
+#   mutate(total_obs = Yes + No)
+# # Change NET to NETWORK
+# hh_data_merged <- hh_data_merged %>%
+#   mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
+#   arrange(date) %>%
+#   filter(unit != "NULL")
+# hh_data_merged_role <- hh_data_merged_role %>%
+#   mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
+#   arrange(date) %>%
+#   filter(unit != "NULL")
+```
