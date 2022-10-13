@@ -246,6 +246,37 @@ scale_fill_MountSinai <- function(palette = "all", discrete = TRUE, reverse = FA
 ```
 
 
+```{r Import Data, echo = FALSE, warning = FALSE, message = FALSE}
+'%!in%' <- function(x,y)!('%in%'(x,y))
+inc_sites <- c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD")
+# scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/Data/historical_data.rds")) %>%
+#   filter(!is.na(Campus)) %>%
+#   filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
+scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/Data_Updated/historical_data.rds")) %>%
+  filter(!is.na(Campus)) %>%
+  filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
+# scheduling_data_raw <- as.data.frame(readRDS("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/historical_data.rds")) %>%
+#   filter(!is.na(Campus)) %>%
+#    filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
+# scheduling_data_test <- scheduling_data_raw %>% filter(Appt.Year == "2022")
+# saveRDS(scheduling_data_test, "historical_data_test.rds")
+
+date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
+date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
+# date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
+```
+
+
+```{r Process Corrected Epic Departments, echo = FALSE, warning = FALSE, message = FALSE}
+# epic_dept_corrected <- read_csv("Epic Department Mapping Correction.csv")
+# 
+# scheduling_data_raw <- merge(scheduling_data_raw, epic_dept_corrected[,c("Campus","Campus.Specialty","Department","Campus Corrected")])
+# scheduling_data_raw <- scheduling_data_raw %>%
+#   mutate(Campus = ifelse(is.na(`Campus Corrected`) | `Campus Corrected` == "DEACTIVATE", Campus, `Campus Corrected`)) %>%
+#   dplyr::select(-`Campus Corrected`)
+```
+
+
 ```{r Import HH Data, echo = FALSE, warning = FALSE, message = FALSE}
 # con_hh <- odbcConnect("handhygiene") # Connect to Server
 # hh_data_comp_raw <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp") # Master Referrals Data
