@@ -340,7 +340,7 @@ hh_data_merged_role <- hh_data_comp %>%
   pivot_longer(provider_hands_bef: mt_hands_aft,
                names_to = "role",
                values_to = "compliance") %>%
-  mutate(date = as.Date(date, "%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date),
          compliance = ifelse(compliance == 2,0,compliance)) %>%
