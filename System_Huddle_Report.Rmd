@@ -289,7 +289,7 @@ con_hh <- dbConnect(odbc(),
                     UID = "kweons01",
                     PWD = "Pasword01#PasPasword01#Pas",
                     Port = 1433)     
-hh_data_comp_raw <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
+hh_data_comp_raw <- dbGetQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
  
 ```
 
