@@ -344,12 +344,14 @@ hh_data_merged_role <- hh_data_comp %>%
   filter(compliance != 2) %>%
   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
   summarise(total_obs = n()) %>%
-  mutate(compliance = ifelse(compliance == 0, "No", "Yes")) %>%
-  pivot_wider(
-    names_from = compliance,
-    values_from = total_obs,
-    values_fill=list(total_obs=0)
-  ) 
+  mutate(compliance = ifelse(compliance == 0, "No", "Yes")) 
+
+# %>%
+#   pivot_wider(
+#     names_from = compliance,
+#     values_from = total_obs,
+#     values_fill=list(total_obs=0)
+#   ) 
 
 str(hh_data_merged_role)
 #   mutate(total_obs = Yes + No)
