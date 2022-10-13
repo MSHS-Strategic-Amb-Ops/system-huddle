@@ -302,13 +302,17 @@ hh_data_comp <- hh_data_comp_raw %>%
   filter(date != "NULL") %>%
   mutate_if(is.numeric, as.character) %>%
   filter(!is.na(site))
-# hh_data_msd <- hh_data_msd_raw %>%
-#     filter(language != "NULL") %>%
-#   rename(date = data_date) %>%
-#   dplyr::select(-language) %>%
-#   mutate_if(is.numeric, as.character)
-#
-# hh_data_raw <- bind_rows(hh_data_comp, hh_data_msd)
+
+datatable(hh_data_comp, extensions = "Buttons", 
+            options = list(paging = TRUE,
+                           scrollX=TRUE, 
+                           searching = TRUE,
+                           ordering = TRUE,
+                           dom = 'Bfrtip',
+                           buttons = c('copy', 'csv', 'excel', 'pdf'),
+                           pageLength=5, 
+                           lengthMenu=c(3,5,10) ))
+
 hh_data_merged <- hh_data_comp %>%
   filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
   filter(!is.na(site)) %>%
@@ -344,7 +348,13 @@ hh_data_merged_role <- hh_data_comp %>%
   filter(compliance != 2) %>%
   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
   summarise(total_obs = n()) %>%
-  mutate(compliance = ifelse(compliance == 0, "No", "Yes")) 
+  mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
+         total_obs = as.numeric(total_obs)) %>%
+  pivot_wider(
+    names_from = compliance,
+    values_from = total_obs,
+    values_fill=list(total_obs=0)
+  )
 
 datatable(hh_data_merged_role, extensions = "Buttons", 
             options = list(paging = TRUE,
@@ -357,12 +367,6 @@ datatable(hh_data_merged_role, extensions = "Buttons",
                            lengthMenu=c(3,5,10) ))
 
 
-# %>%
-#   pivot_wider(
-#     names_from = compliance,
-#     values_from = total_obs,
-#     values_fill=list(total_obs=0)
-#   ) 
 
 str(hh_data_merged_role)
 #   mutate(total_obs = Yes + No)
