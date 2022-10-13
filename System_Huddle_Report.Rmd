@@ -263,7 +263,6 @@ hh_data_comp_raw <- hh_data_comp_raw %>%
   mutate_all(as.character) %>%
   mutate(record_id = as.numeric(record_id),
          unit_complete = as.numeric(unit_complete))
-hh_data_comp_raw[is.na(hh_data_comp_raw) & is.n]
 
 
 
