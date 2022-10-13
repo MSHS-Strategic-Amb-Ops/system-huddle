@@ -346,6 +346,17 @@ hh_data_merged_role <- hh_data_comp %>%
   summarise(total_obs = n()) %>%
   mutate(compliance = ifelse(compliance == 0, "No", "Yes")) 
 
+datatable(hh_data_merged_role, extensions = "Buttons", 
+            options = list(paging = TRUE,
+                           scrollX=TRUE, 
+                           searching = TRUE,
+                           ordering = TRUE,
+                           dom = 'Bfrtip',
+                           buttons = c('copy', 'csv', 'excel', 'pdf'),
+                           pageLength=5, 
+                           lengthMenu=c(3,5,10) ))
+
+
 # %>%
 #   pivot_wider(
 #     names_from = compliance,
