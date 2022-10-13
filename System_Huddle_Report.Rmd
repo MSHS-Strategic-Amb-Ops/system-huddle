@@ -349,12 +349,13 @@ hh_data_merged_role <- hh_data_comp %>%
   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
   summarise(total_obs = n()) %>%
   mutate(compliance = ifelse(compliance == 0, "No", "Yes"),
-         total_obs = as.numeric(total_obs)) %>%
-  pivot_wider(
-    names_from = compliance,
-    values_from = total_obs,
-    values_fill=list(total_obs=0)
-  )
+         total_obs = as.numeric(total_obs)) 
+# %>%
+  # pivot_wider(
+  #   names_from = compliance,
+  #   values_from = total_obs,
+  #   values_fill=list(total_obs=0)
+  # )
 
 datatable(hh_data_merged_role, extensions = "Buttons", 
             options = list(paging = TRUE,
