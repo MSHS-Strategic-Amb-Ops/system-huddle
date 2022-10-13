@@ -343,9 +343,9 @@ hh_data_merged_role <- hh_data_comp %>%
   mutate(date = as.Date(date, "%m/%d/%Y"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date),
-         compliance = ifelse(compliance == 2,0,compliance)) 
-# %>%
-#   filter(!is.na(compliance)) %>%
+         compliance = ifelse(compliance == 2,0,compliance)) %>%
+  filter(compliance != "") 
+  # filter(!is.na(compliance)) %>%
 #   filter(compliance != 2) %>%
 #   group_by(site, unit, date, Appt.Year, Appt.WeekNum, role, compliance) %>%
 #   summarise(total_obs = n()) 
