@@ -260,9 +260,9 @@ con_hh <- dbConnect(odbc(),
 hh_data_comp_raw <- dbGetQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
 hh_data_comp_raw <- as.data.frame(hh_data_comp_raw)
 # hh_data_comp_raw <- hh_data_comp_raw %>%
-  # mutate_all(as.character) %>%
-  # mutate(record_id = as.numeric(record_id),
-  #        unit_complete = as.numeric(unit_complete))
+#   mutate_all(as.character) %>%
+#   mutate(record_id = as.numeric(record_id),
+#          unit_complete = as.numeric(unit_complete))
 
 
 
@@ -294,7 +294,6 @@ hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSH",
                                 hh_crosswalk$unit[match(hh_data_comp_raw$msh_unit, hh_crosswalk$Location)], hh_data_comp_raw$site)
 hh_data_comp <- hh_data_comp_raw %>%
   dplyr::select(-language) %>%
-  mutate(date = as.Date(date, "%Y-%m-%d")) %>%
   pivot_longer(
     c("msh_unit","msd_unit","nyee_unit","msq_unit","msm_unit","msw_unit","net_unit"),
     names_to = "unit_site",
@@ -331,7 +330,7 @@ hh_data_merged <- hh_data_comp %>%
             nurse_hands_aft = sum(nurse_hands_aft),
             mt_hands_bef = sum(mt_hands_bef),
             mt_hands_aft = sum(mt_hands_aft)) %>%
-  mutate(date = as.Date(date, "%m/%d/%Y"),
+  mutate(date = as.Date(date, "%Y-%m-%d"),
          Appt.Year = as.numeric(strftime(date, format = "%Y")),
          Appt.WeekNum = lubridate::epiweek(date))
 hh_data_merged_role <- hh_data_comp %>%
