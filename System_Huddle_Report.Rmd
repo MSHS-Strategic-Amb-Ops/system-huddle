@@ -244,6 +244,8 @@ scale_fill_MountSinai <- function(palette = "all", discrete = TRUE, reverse = FA
 # Use in ggplot 
   # scale_color_MountSinai("main")
 ```
+
+
 ```{r Import Data, echo = FALSE, warning = FALSE, message = FALSE}
 '%!in%' <- function(x,y)!('%in%'(x,y))
 inc_sites <- c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD")
@@ -258,10 +260,7 @@ scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/
 #    filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
 # scheduling_data_test <- scheduling_data_raw %>% filter(Appt.Year == "2022")
 # saveRDS(scheduling_data_test, "historical_data_test.rds")
-# hh_data_comp_raw <-  as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_comp.csv"))
-hh_crosswalk <- as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_crosswalk.csv"))
-# hh_data_comp_raw <-  as.data.frame(read_csv("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/Github/server-upload/hh_comp.csv"))
-# hh_crosswalk <- as.data.frame(read_csv("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/Github/server-upload/hh_crosswalk.csv"))
+
 date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 # date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
@@ -279,10 +278,10 @@ date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 
 
 ```{r Import HH Data, echo = FALSE, warning = FALSE, message = FALSE}
-# conn1 <- odbcConnect("handhygiene") # Connect to Server
+# con_hh <- odbcConnect("handhygiene") # Connect to Server
 # 
 # # Import Referrals+Visit Data --------------------------------------------------
-# hh_data_comp_raw <- sqlQuery(conn1, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp") # Master Referrals Data
+# hh_data_comp_raw <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp") # Master Referrals Data
 con_hh <- dbConnect(odbc(),
                     Driver = "SQLServer",
                     Server = "10.2.42.69",
@@ -290,6 +289,13 @@ con_hh <- dbConnect(odbc(),
                     PWD = "Pasword01#PasPasword01#Pas",
                     Port = 1433)     
 hh_data_comp_raw <- dbGetQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
+
+write.csv(hh_data_comp_raw, "/nfs/data/Applications/Ambulatory/hh_crosswalk.csv", row.names=FALSE)
+
+# hh_data_comp_raw <-  as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_comp.csv"))
+hh_crosswalk <- as.data.frame(read_csv("/nfs/data/Applications/Ambulatory/hh_crosswalk.csv"))
+# hh_data_comp_raw <-  as.data.frame(read_csv("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/Github/server-upload/hh_comp.csv"))
+# hh_crosswalk <- as.data.frame(read_csv("C:/Users/kweons01/Desktop/Strategic Initiatives - So Youn/Github/server-upload/hh_crosswalk.csv"))
  
 ```
 
