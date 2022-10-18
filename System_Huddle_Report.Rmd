@@ -772,7 +772,9 @@ highchart() %>%
                 dataLabels = list(enabled = TRUE, format='{point.y}%')) %>%
   hc_legend(align = "left", verticalAlign = "top", itemStyle = list(fontFamily ='Calibri',color ='black', fontSize = "14px")) %>%
   hc_title(text = paste0(x, " - % Encounters Closed <=7 Days"), align = "left", style = list(fontWeight = 'bold', fontSize = "22px", fontFamily = "Calibri")) %>%
-  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>","Based on visits from ",date_start," to ",missing_chg_cutOff),
+  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>",
+                            "Includes Epic provider visits only <br>",
+                            "Based on visits from ",date_start," to ",missing_chg_cutOff),
               align = "left", style = list(fontFace = "italic", fontSize = "16px", fontFamily = "Calibri")) %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
@@ -841,6 +843,8 @@ highchart() %>%
 #   hc_tooltip(shared = TRUE, borderColor = "black")
 # }) %>%
 #   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
+
+invisible(gc())
 ```
 
 --------------------------------------------------------------------------------
@@ -871,7 +875,9 @@ highchart() %>%
                 dataLabels = list(enabled = TRUE, format='{point.y}%')) %>%
   hc_legend(align = "left", verticalAlign = "top", itemStyle = list(fontFamily ='Calibri',color ='black', fontSize = "14px")) %>%
   hc_title(text = paste0(x, " - % Encounters Closed <=7 Days"), align = "left", style = list(fontWeight = 'bold', fontSize = "22px", fontFamily = "Calibri")) %>%
-  hc_subtitle(text = paste0("Includes MSUS, MSDD, and MSBI <br>","Excludes Radiology and Rad Onc visits <br>", "Based on visits from ",date_start," to ",missing_chg_cutOff),
+  hc_subtitle(text = paste0("Includes MSUS, MSDD, and MSBI <br>",
+                            "Includes Epic provider visits only <br>",
+                            "Excludes Radiology and Rad Onc visits <br>", "Based on visits from ",date_start," to ",missing_chg_cutOff),
               align = "left", style = list(fontFace = "italic", fontSize = "16px", fontFamily = "Calibri")) %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
