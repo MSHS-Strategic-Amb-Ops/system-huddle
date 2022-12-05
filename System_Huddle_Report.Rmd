@@ -250,18 +250,17 @@ scale_fill_MountSinai <- function(palette = "all", discrete = TRUE, reverse = FA
 '%!in%' <- function(x,y)!('%in%'(x,y))
 inc_sites <- c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD")
 
-date_start <- as.Date("2021-06-01", format="%Y-%m-%d")
+
 
 scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/Data_Updated/historical_data.rds")) %>%
   filter(!is.na(Campus)) %>%
-  filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD")) %>%
-  filter(Appt.DateYear >= date_start)
+  filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
 
 # scheduling_data_raw <- as.data.frame(readRDS(file.choose())) %>%
 #   filter(!is.na(Campus)) %>%
 #   filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
 
-
+date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 # date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
 ```
@@ -704,6 +703,7 @@ missing_exc_visitType <- read_excel("/nfs/data/Applications/Ambulatory/open_enco
 # Based on Metric % Encounters Closed within 7 days
 # Missing Charges Trending by Site
 missing_chg_data_trend <- scheduling_data %>%
+  filter(Appt.DateYear >= as.Date("2021-06-01", "%Y-%m-%d")) %>%
   filter(Department %!in% unique(missing_exc_dept$DEPARTMENT)) %>%
   filter(Provider %!in% unique(missing_exc_resource$PROVIDER)) %>%
   filter(Appt.Status == "Arrived") %>%
@@ -3048,7 +3048,7 @@ comp_formatter <- formatter("span",
 
 
 hh_site_final <- hh_site_final %>% mutate_if(is.formattable, comp_formatter)
-col_names <- c("Week of", rep(c("Obs # Before","Comp % Before","Obs # After","Comp % After"),4))
+col_names <- c("Week of", rep(c("Obs # Before","Comp % Before","Obs # After""Comp % After"),4))
 header_above <- c("title" = length(hh_site_final))
 names(header_above) <- paste0(campus, " Ambulatory Hand Hygiene Compliance")
 header_above_2 <- c("title" = length(hh_site_final))
