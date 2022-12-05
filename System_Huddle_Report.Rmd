@@ -1495,6 +1495,7 @@ missing_chg_ytd_mshs %>%
   column_spec(c(7:8), color = "#ff3300", bold = T) %>%
   add_footnote(c("*Includes Epic provider visits only; excludes NURSE, SOCIAL WORK, TREATMENT, LAB, and ECHO visits.")) 
 
+invisible(gc())
 ```
 
 
@@ -1613,6 +1614,8 @@ current_same_vol_mshs_all %>%
   column_spec(8:10, background = "#E6F8FF", width = "100px") %>%
   column_spec(1, width = "150px") %>%
   row_spec(nrow(current_same_vol_mshs_all), bold = T)
+
+invisible(gc())
 ```
 
 
@@ -1861,6 +1864,8 @@ current_last_new_mshs_all %>%
   #          <span style='color: orange;'>Orange:</span> >14 & <30 days,
   #          <span style='color: red;'>Red:</span> >=30 days",
   #          escape = FALSE)
+
+invisible(gc())
 ```
 
 
@@ -1949,6 +1954,8 @@ current_last_new_mshs_all %>%
 #            general = "No Show Rate = No Show Patients / No Show and Arrived Patients",
 #            escape = FALSE) %>%
 #     column_spec(c(4,7,10), color = "white", bold = T)
+
+invisible(gc())
 ```
 
 
