@@ -3048,7 +3048,7 @@ comp_formatter <- formatter("span",
 
 
 hh_site_final <- hh_site_final %>% mutate_if(is.formattable, comp_formatter)
-col_names <- c("Week of", rep(c("Obs # Before","Comp % Before","Obs # After""Comp % After"),4))
+col_names <- c("Week of", rep(c("Obs # Before","Comp % Before","Obs # After","Comp % After"),4))
 header_above <- c("title" = length(hh_site_final))
 names(header_above) <- paste0(campus, " Ambulatory Hand Hygiene Compliance")
 header_above_2 <- c("title" = length(hh_site_final))
