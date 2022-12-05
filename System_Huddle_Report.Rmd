@@ -852,6 +852,8 @@ missing_chg_data_trend_downtown <- scheduling_data %>%
   mutate(clo.7days.perc = round((YES/(total.enc))*100,0)) %>%
   filter(enc.status == "CLOSED")
 
+invisible(gc())
+
 # Based on Metric % Encounteres Closed <=7 days
 map(unique(missing_chg_data_trend_downtown$Campus), function(x){
 highchart() %>%
