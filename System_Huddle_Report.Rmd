@@ -259,7 +259,7 @@ scheduling_data_raw <- as.data.frame(readRDS("/nfs/data/Applications/Ambulatory/
 #   filter(!is.na(Campus)) %>%
 #   filter(Campus %in% c("NETWORK","MSM","MSH-MSDFP","ONCOLOGY","MSW","MSBI","MSUS","MSH- AMBULATORY CARE","MSDD"))
 
-date_start <- as.Date("2021-01-01", format="%Y-%m-%d")
+date_start <- as.Date("2021-06-01", format="%Y-%m-%d")
 date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 # date_start <- as.Date(paste0(format(as.Date(date_end) - 365, "%Y-%m"),"-01"), format="%Y-%m-%d")
 ```
@@ -1991,7 +1991,7 @@ hh_mshs_final <- hh_mshs
 comp_formatter <- formatter("span",
   style = x ~ style(color = ifelse(x >= 0.9, "#00b800", "#ff3300")))
 hh_mshs_final <- hh_mshs_final %>% mutate_if(is.formattable, comp_formatter)
-col_names <- c("Week of", rep(c("Comp % Before","Obs # Before","Comp % After","Obs # After"),4))
+col_names <- c("Week of", rep(c("Obs # Before","Comp % Before", "Obs # After", "Comp % After"),4))
 header_above_2 <- c("title" = length(hh_mshs_final))
 names(header_above_2) <- paste0("Data Entered from ",
                               min(past_4_wks$Appt.DateYear)," to ",max(hh_data_merged_role$date, na.rm = T))
@@ -3046,7 +3046,7 @@ comp_formatter <- formatter("span",
 
 
 hh_site_final <- hh_site_final %>% mutate_if(is.formattable, comp_formatter)
-col_names <- c("Week of", rep(c("Comp % Before","Obs # Before","Comp % After","Obs # After"),4))
+col_names <- c("Week of", rep(c("Obs # Before","Comp % Before","Obs # After""Comp % After"),4))
 header_above <- c("title" = length(hh_site_final))
 names(header_above) <- paste0(campus, " Ambulatory Hand Hygiene Compliance")
 header_above_2 <- c("title" = length(hh_site_final))
