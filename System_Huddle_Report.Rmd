@@ -278,6 +278,8 @@ date_end <- as.Date(max(scheduling_data_raw$Appt.Made.DTTM), format="%Y-%m-%d")
 ```{r Import HH Data, echo = FALSE, warning = FALSE, message = FALSE}
 # con_hh <- odbcConnect("handhygiene") # Connect to Server
 # hh_data_comp_raw <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp") # Master Referrals Data
+# 
+# hh_data_comp_raw_pt_entry <- sqlQuery(con_hh, "SELECT * FROM qidm_dev.dbo.PT_AMB_HAND_HYGIENE_COMP") # Master Referrals Data
 
 # Import Referrals+Visit Data --------------------------------------------------
 con_hh <- dbConnect(odbc(),
@@ -288,6 +290,9 @@ con_hh <- dbConnect(odbc(),
                     Port = 1433)     
 hh_data_comp_raw <- dbGetQuery(con_hh, "SELECT * FROM qidm_dev.dbo.amb_hand_hygiene_comp")
 hh_data_comp_raw <- as.data.frame(hh_data_comp_raw)
+
+hh_data_comp_raw_pt_entry <- dbGetQuery(con_hh, "SELECT * FROM qidm_dev.dbo.PT_AMB_HAND_HYGIENE_COMP")
+hh_data_comp_raw_pt_entry <- as.data.frame(hh_data_comp_raw_pt_entry)
 # hh_data_comp_raw <- hh_data_comp_raw %>%
 #   mutate_all(as.character) %>%
 #   mutate(record_id = as.numeric(record_id),
@@ -370,13 +375,25 @@ hh_data_comp_raw$site<- ifelse(hh_data_comp_raw$site == "MSH",
 hh_data_comp <- hh_data_comp_raw %>%
   dplyr::select(-language) %>%
   pivot_longer(
-    c("msh_unit","msd_unit","nyee_unit","msq_unit","msm_unit","msw_unit","net_unit"),
+    c("msb_unit","msh_unit","msd_unit","nyee_unit","msq_unit","msm_unit","msw_unit","net_unit"),
     names_to = "unit_site",
     values_to = "unit"
   ) %>%
   filter(date != "NULL") %>%
   mutate_if(is.numeric, as.character) %>%
   filter(!is.na(site))
+
+
+# Process patient entered data -------------------------------------------------
+colnames(hh_data_comp_raw_pt_entry) <- tolower(colnames(hh_data_comp_raw_pt_entry))
+hh_data_comp_pt_entry <- hh_data_comp_raw_pt_entry %>%
+  rename(date = data_date) %>%
+  mutate_if(is.numeric, as.character) 
+
+
+hh_data_comp <- bind_rows(hh_data_comp, hh_data_comp_pt_entry)
+
+
 
 # datatable(hh_data_comp, extensions = "Buttons", 
 #             options = list(paging = TRUE,
@@ -389,7 +406,7 @@ hh_data_comp <- hh_data_comp_raw %>%
 #                            lengthMenu=c(3,5,10) ))
 
 hh_data_merged <- hh_data_comp %>%
-  filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER")) %>%
+  filter(!site %in% c("MS NOW", "MSHP", "NYEE", "MSQ","OTHER","MSB")) %>%
   filter(!is.na(site)) %>%
   select(site, unit, date, worker___1, worker___2, worker___3, provider_hands_bef, provider_hands_aft, nurse_hands_bef, nurse_hands_aft, mt_hands_bef, mt_hands_aft) %>%
   mutate(across(4:12, as.numeric)) %>%
@@ -456,6 +473,8 @@ hh_data_merged_role <- hh_data_merged_role %>%
   mutate(site = ifelse(site == "NET","NETWORK",site)) %>%
   arrange(date) %>%
   filter(unit != "NULL")
+hh_data_merged <- hh_data_merged %>%
+  mutate(site = ifelse(unit == "UCC", "MSUS",site))
 
 ```
 
