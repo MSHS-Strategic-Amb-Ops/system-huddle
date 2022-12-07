@@ -390,6 +390,8 @@ hh_data_comp_pt_entry <- hh_data_comp_raw_pt_entry %>%
   rename(date = data_date) %>%
   mutate_if(is.numeric, as.character) 
 
+hh_data_comp_pt_entry$date <- as.character(hh_data_comp_pt_entry)
+
 
 hh_data_comp <- bind_rows(hh_data_comp, hh_data_comp_pt_entry)
 
