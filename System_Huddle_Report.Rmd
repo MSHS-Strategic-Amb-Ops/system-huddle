@@ -752,6 +752,11 @@ missing_chg_data_trend <- scheduling_data %>%
 
 invisible(gc())
 
+
+```
+
+
+```{r Open Encounters Metric Trending by Site Output, fig.width=12, fig.height = 5, fig.align = 'center', echo = FALSE, warning = FALSE, message = FALSE}
 # Total Encounters and % Closed within 7 Days by Site
 map(unique(missing_chg_data_trend$Campus), function(x){
 highchart() %>%
@@ -851,6 +856,7 @@ highchart() %>%
 #   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
 
 invisible(gc())
+
 ```
 
 --------------------------------------------------------------------------------
