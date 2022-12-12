@@ -561,7 +561,7 @@ scheduling_data <- scheduling_data_raw %>%
 rm(scheduling_data_raw)
 invisible(gc())
 
-scheduling_data <- scheduling_data_raw %>%
+scheduling_data <- scheduling_data %>%
   mutate(Appt.WeekNum = lubridate::epiweek(Appt.DateYear),
          Visit.Method  = case_when(Visit.Method == "IN PERSON" ~ 'IN PERSON',TRUE ~ 'TELEHEALTH'),
          New.PT2 = case_when(New.PT2 == "New" ~ 'New', TRUE ~ 'Established'),
