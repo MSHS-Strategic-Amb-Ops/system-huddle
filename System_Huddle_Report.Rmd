@@ -729,6 +729,7 @@ missing_exc_visitType <- read_excel("/nfs/data/Applications/Ambulatory/open_enco
 # Missing Charges Trending by Site
 missing_chg_data_trend <- scheduling_data %>%
   filter(Appt.Year == 2022) %>%
+  filter(Appt.DateYear <= missing_chg_cutOff) %>%
   # filter(Appt.DateYear >= as.Date("2021-06-01", "%Y-%m-%d")) %>%
   filter(Department %!in% unique(missing_exc_dept$DEPARTMENT)) %>%
   filter(Provider %!in% unique(missing_exc_resource$PROVIDER)) %>%
@@ -737,7 +738,6 @@ missing_chg_data_trend <- scheduling_data %>%
   mutate(visit_exclude = case_when(str_detect(Appt.Type, "ECHO|SOCIAL|NURSE|NUTRITION|LAB|TREATMENT") ~ "YES"
                                          ,TRUE ~ "NO")) %>%
   filter(visit_exclude == "NO") %>%
-  filter(Appt.DateYear >= date_start, Appt.DateYear <= missing_chg_cutOff) %>%
   # filter(enc.status == "CLOSED") %>%
   mutate(clo.7days = case_when(open.days <= 7 ~ 'YES', TRUE ~ 'NO')) %>%
   group_by(Campus, Appt.MonthYear, enc.status, clo.7days) %>%
