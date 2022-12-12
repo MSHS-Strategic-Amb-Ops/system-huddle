@@ -554,11 +554,12 @@ reporting_week <- paste0("from Sunday, ",todays_date, " to Saturday, ",todays_da
 
 ```{r Data Processing, echo = FALSE, warning = FALSE, message = FALSE}
 # Scheduling Data
-scheduling_data <- scheduling_data_raw
+scheduling_data <- scheduling_data_raw %>%
   filter(!Campus %in% c("MSB", "MS NOW", "MSHP", "NYEE", "MSQ","OTHER","INPATIENT")) %>%
   filter(!is.na(Campus))
   
 rm(scheduling_data_raw)
+invisible(gc())
 
 scheduling_data <- scheduling_data_raw %>%
   mutate(Appt.WeekNum = lubridate::epiweek(Appt.DateYear),
