@@ -1088,6 +1088,8 @@ highchart() %>%
     hc_tooltip(shared = TRUE, borderColor = "black")
   }) %>%
   hw_grid(ncol = 2, rowheight = 450) %>% htmltools::browsable()
+
+invisible(gc())
 ```
 
 ### 3. New Patient Ratio Trending
@@ -1269,6 +1271,8 @@ highchart() %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
+
+invisible(gc())
 ```
 
 
