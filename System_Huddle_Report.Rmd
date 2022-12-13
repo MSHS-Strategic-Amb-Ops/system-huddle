@@ -1096,7 +1096,9 @@ invisible(gc())
 ```{r New Patient Volume Trending by Site, echo = FALSE, warning = FALSE, message = FALSE}
 new_vol_trending <- scheduling_data %>%
   filter(Appt.Status == "Arrived") %>%
-  filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
+  filter(Appt.Year == 2021) %>%
+  filter(Appt.DateYear <= date_end) %>%
+  # filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
   # mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
   group_by(Campus, Appt.MonthYear, New.PT2) %>%
   summarise(total = n()) %>%
@@ -1130,7 +1132,7 @@ highchart() %>%
                 dataLabels = list(enabled = TRUE, format='{point.y}%')) %>%
   hc_legend(align = "left", verticalAlign = "top", itemStyle = list(fontFamily ='Calibri',color ='black', fontSize = "14px")) %>%
   hc_title(text = paste0(x, " - % New Visits"), align = "left", style = list(fontWeight = 'bold', fontSize = "22px", fontFamily = "Calibri")) %>%
-  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>", "Based on visits from ",date_start," to ",date_end),
+  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>", "Based on visits from 2022-01-01"," to ",date_end),
               align = "left", style = list(fontFace = "italic", fontSize = "16px", fontFamily = "Calibri")) %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
@@ -1143,7 +1145,9 @@ new_vol_trending_downtown <- scheduling_data %>%
   filter(Appt.Status == "Arrived") %>%
   filter(Campus %in% c("MSUS","MSDD","MSBI")) %>%
   mutate(Campus = "MS Downtown") %>%
-  filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
+  filter(Appt.Year == 2021) %>%
+  filter(Appt.DateYear <= date_end) %>%
+  # filter(Appt.DateYear >= date_start, Appt.DateYear <= date_end) %>%
   # mutate(New.PT2 = ifelse(New.PT2 == "",FALSE,New.PT2)) %>%
   group_by(Campus, Appt.MonthYear, New.PT2) %>%
   summarise(total = n()) %>%
@@ -1177,7 +1181,7 @@ highchart() %>%
                 dataLabels = list(enabled = TRUE, format='{point.y}%')) %>%
   hc_legend(align = "left", verticalAlign = "top", itemStyle = list(fontFamily ='Calibri',color ='black', fontSize = "14px")) %>%
   hc_title(text = paste0(x, " - % New Visits"), align = "left", style = list(fontWeight = 'bold', fontSize = "22px", fontFamily = "Calibri")) %>%
-  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>", "Based on visits from ",date_start," to ",date_end),
+  hc_subtitle(text = paste0("Excludes Radiology and Rad Onc visits <br>", "Based on visits from 2022-01-01"," to ",date_end),
               align = "left", style = list(fontFace = "italic", fontSize = "16px", fontFamily = "Calibri")) %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
@@ -1229,7 +1233,9 @@ invisible(gc())
 # New Patients Scheduled within 14 days --------------------------------------------------------------------
 new_perc_trend <- scheduling_data %>%
   filter(Campus != "MSBI") %>%
-  filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
+  filter(Appt.Year == 2021) %>%
+  filter(Appt.DateYear <= date_end) %>%
+  # filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
   filter(New.PT2 == "New") %>%
   # mutate(Appt.Made.MonthYear = as.Date(paste0(format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y-%m"), "-01"))) %>%
   filter(Campus.Specialty %in% c("Internal Medicine", "Family Medicine")) %>%
@@ -1243,6 +1249,8 @@ new_perc_trend <- scheduling_data %>%
               values_fill = 0) %>%
   mutate(total = Yes + No,
          new_14days = round((Yes/(total))*100))
+
+
 map(unique(new_perc_trend$Campus), function(x){
 highchart() %>%
   hc_yAxis_multiples(
@@ -1269,7 +1277,7 @@ highchart() %>%
                 dataLabels = list(enabled = TRUE, format='{point.y}%')) %>%
   hc_legend(align = "left", verticalAlign = "top", itemStyle = list(fontFamily ='Calibri',color ='black', fontSize = "14px")) %>%
   hc_title(text = paste0(x, " - % New Patients Scheduled <=14 Days"), align = "left", style = list(fontWeight = 'bold', fontSize = "22px", fontFamily = "Calibri")) %>%
-  hc_subtitle(text = paste0("Based on visits from ",date_start," to ",date_end),
+  hc_subtitle(text = paste0("Based on visits from 2022-01-01"," to ",date_end),
               align = "left", style = list(fontFace = "italic", fontSize = "16px", fontFamily = "Calibri")) %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
