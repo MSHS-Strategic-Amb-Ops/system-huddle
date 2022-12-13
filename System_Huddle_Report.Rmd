@@ -1182,6 +1182,9 @@ highchart() %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
   hw_grid(ncol = 2, rowheight = 450) %>% htmltools::browsable()
+
+
+invisible(gc())
 ```
 
 ### 4. Primary Care Access Trending
@@ -1388,6 +1391,9 @@ highchart() %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
+  
+  
+invisible(gc())
 ```
 
 
@@ -1448,6 +1454,7 @@ highchart() %>%
   hc_tooltip(shared = TRUE, borderColor = "black")
 }) %>%
   hw_grid(ncol = 2, rowheight = 400) %>% htmltools::browsable()
+
 invisible(gc())
 ```
 
