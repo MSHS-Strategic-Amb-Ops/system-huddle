@@ -1243,12 +1243,12 @@ invisible(gc())
 # New Patients Scheduled within 14 days --------------------------------------------------------------------
 new_perc_trend <- scheduling_data %>%
   filter(Campus != "MSBI") %>%
+  filter(Campus.Specialty %in% c("Internal Medicine", "Family Medicine")) %>%
   filter(Appt.Made.Year == 2022) %>%
   filter(Appt.Made.DateYear <= date_end) %>%
   # filter(Appt.Made.DateYear >= date_start, Appt.Made.DateYear <= date_end) %>%
   filter(New.PT2 == "New") %>%
   # mutate(Appt.Made.MonthYear = as.Date(paste0(format(as.Date(Appt.Made.DTTM, format="%m/%d/%Y"), "%Y-%m"), "-01"))) %>%
-  filter(Campus.Specialty %in% c("Internal Medicine", "Family Medicine")) %>%
   filter(Wait.Time >= 0) %>%
   mutate(Wait.Time = as.numeric(Wait.Time)) %>%
   mutate(within.14 = ifelse(Wait.Time <= 14, "Yes","No")) %>%
