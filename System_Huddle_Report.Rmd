@@ -957,6 +957,9 @@ highchart() %>%
 #   hc_tooltip(shared = TRUE, borderColor = "black")
 # }) %>%
 #   hw_grid(ncol = 2, rowheight = 450) %>% htmltools::browsable()
+
+rm(missing_chg_data_trend)
+rm(missing_chg_data_trend_downtown)
 invisible(gc())
 ```
 
@@ -1091,6 +1094,9 @@ highchart() %>%
   }) %>%
   hw_grid(ncol = 2, rowheight = 450) %>% htmltools::browsable()
 
+
+rm(vol_trending)
+rm(vol_trending_downtown)
 invisible(gc())
 ```
 
